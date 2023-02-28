@@ -1,0 +1,475 @@
+\documentclass[10pt,landscape]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{latexsym, marvosym}
+\usepackage{pifont}
+\usepackage{lscape}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[bottom]{footmisc}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepackage{pdfpages}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\setlist[description]{leftmargin=0pt}
+\usepackage{xfrac}
+\usepackage[pdftex,
+            pdfauthor={Zad Chin},
+            pdftitle={Statistical Inference Cheatsheet},
+            pdfsubject={A cheatsheet pdf and reference guide originally made for Stat 111},
+            pdfkeywords={probability} {statistics} {cheatsheet} {pdf} {cheat} {sheet} {formulas} {equations}
+            ]{hyperref}
+\usepackage[
+            open,
+            openlevel=2
+            ]{bookmark}
+\usepackage{relsize}
+\usepackage{rotating}
+\usepackage{shortcuts}
+
+
+ \newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+    \def\independenT#1#2{\mathrel{\setbox0\hbox{$#1#2$}%
+    \copy0\kern-\wd0\mkern4mu\box0}} 
+            
+% \newcommand{\noin}{\noindent}    
+% \newcommand{\logit}{\textrm{logit}} 
+% \newcommand{\var}{\textrm{Var}}
+% \newcommand{\cov}{\textrm{Cov}} 
+% \newcommand{\corr}{\textrm{Corr}} 
+% \newcommand{\N}{\mathcal{N}}
+% \newcommand{\Bern}{\textrm{Bern}}
+% \newcommand{\Bin}{\textrm{Bin}}
+% \newcommand{\Beta}{\textrm{Beta}}
+% \newcommand{\Gam}{\textrm{Gamma}}
+% \newcommand{\Expo}{\textrm{Expo}}
+% \newcommand{\Pois}{\textrm{Pois}}
+% \newcommand{\Unif}{\textrm{Unif}}
+% \newcommand{\Geom}{\textrm{Geom}}
+% \newcommand{\NBin}{\textrm{NBin}}
+% \newcommand{\Hypergeometric}{\textrm{HGeom}}
+% \newcommand{\HGeom}{\textrm{HGeom}}
+% \newcommand{\Mult}{\textrm{Mult}}
+
+
+
+\geometry{top=.4in,left=.2in,right=.2in,bottom=.4in}
+
+\pagestyle{empty}
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+% -----------------------------------------------------------------------
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+{\color{black}\normalfont\large\bfseries}
+{\color{black}\thesection}{1em}{}
+\titleformat{\subsection}
+{\color{cyan}\normalfont\normalsize\bfseries}
+{\color{cyan}\thesection}{1em}{}
+% Comment out the above 5 lines for black and white
+
+\begin{document}
+
+\raggedright
+\footnotesize
+\begin{multicols*}{3}
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% TITLE
+
+
+    {\color{blue} \Large{\textbf{STAT 111 Midterm Cheatsheet}}} \\
+   % {\Large{\textbf{Probability Cheatsheet}}} \\
+    % comment out line with \color{blue} and uncomment above line for b&w
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ATTRIBUTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\scriptsize
+ Compiled by Zad Chin. Material based on Professor Joe Blitzstein's lectures and Joseph K. Blitzstein and Neil Shephard Lecture Notes for STAT 111.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ATTRIBUTIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\scriptsize
+
+% Cheatsheet format from
+% http://www.stdout.org/$\sim$winston/latex/
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BEGIN CHEATSHEET
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Key STAT 111 terms} 
+
+In the classic inference problem, we start by considering the i.i.d. observations $$Y=(Y_1,\dots,Y_n),$$ which are random variables representing the data, which then crystallize to $$y=(y_1,\dots,y_n).$$ A \emph{statistic} is a function $T$ of the random vector $Y$, and common statistics include the sample mean, sample median, sample mode, sample variance, and various quantiles of the data. We assume that the data we collect behave according to a \emph{model}. This model is \emph{parametric} if $\theta$ is finite-dimensional and \emph{nonparametric} if $\theta$ is infinite-dimensional. Then,
+\begin{itemize}
+    \item An \emph{estimand} is a quantity of interest. Example: $\theta$.
+    \item An \emph{estimator} is a random variable that encapsulates the method we use to estimate the estimand. Example: $\bar{Y}$.
+    \item An \emph{estimate} is a number that represents the crystallized version of some constructed estimator. Example: $\bar{y}$.
+\end{itemize}
+
+
+\section{Likelihoods and MLE}
+
+\subsection{Likelihoods}
+The \emph{likelihood} function describes the probability of observing the data. In other words, it is a function $L$ of the estimand $\theta$ given fixed data $y$: $$L(\theta)=p(y\mid \theta).$$ In the special case where $y=(y_1,\dots,y_n)$, with the $y_j$'s coming from i.i.d. random variables, we can factor the joint density $p(y\mid \theta)=p(y_1,\dots,y_n\mid \theta)$ and get $$L(\theta)=\prod_{j=1}^n p(y_j\mid \theta).$$
+
+\subsection{Log Likelihoods}
+\emph{Loglikelihood} $\ell$ is the logarithm of the likelihood: $$\ell(\theta)=\log L(\theta).$$ In the usual case of $y_1,\dots,y_n$ coming from i.i.d. random variables, we find that the loglikelihood is a sum of $n$ terms, and taking derivatives is now easy: $$\ell(\theta)=\log \prod_{j=1}^n p(y_j\mid \theta)=\sum_{j=1}^n \log p(y_j\mid \theta).$$ 
+
+\subsection{Finding the MLE}
+
+The steps you can carry out to find the MLE of $\theta$ given the data $y$:
+\begin{enumerate}
+    \item Find $L(\theta)$ and take logs to find $\ell(\theta)$.
+    \item Find $\ell'(\theta)$, set it to zero, and solve for $\theta$ (call this $\hat{\theta}$). 
+    \item Find $\ell''(\theta)$ and check that $\ell''(\hat{\theta})<0$.
+    \item With this, $\hat{\theta}$ is your maximum likelihood estimate!
+    \item To find the maximum likelihood estimator, convert the $y_j$'s into $Y_j$'s.
+\end{enumerate}
+
+\subsection{Reparameterization}
+
+\textbf{Likelihood Invariance} Allow $\theta$ to be an estimand of interest, and let $\psi = g(\theta)$, where $g$ is injective. Then, $L(\psi)=L(\theta)$.
+
+\textbf{MLE Invariance}
+If $g$ is injective and $\psi=g(\theta)$, the MLE of $\psi$ is equal to the MLE of $\theta$ evaluated at $g$. After all, maximizing $L(\psi)$ is equivalent to maximizing $L(\theta)$ because applying $g$ is an inequality preserving operation.
+
+\subsection{Score Function}
+The \emph{score} function is defined to be the first derivative of the loglikelihood: $$s(\theta)=\ell'(\theta).$$ To find the MLE, we set $s(\theta)=0$ and solve for $\theta$, which we call $\hat{\theta}$.
+
+\subsection{Information Inequality}
+
+Let $Y=(Y_1,\dots,Y_n)$ be a random vector of i.i.d. random variables, and suppose that the following regularity conditions hold:
+\begin{itemize}
+    \item The support of $Y$ does not depend on $\theta$.
+    \item All expectations and derivatives exist.
+\end{itemize}
+Then, both equalities below hold; the latter is known as the information equality. $$\EE s(\theta)=0,\ \ \VV s(\theta)=-\EE s'(\theta).$$
+
+\subsection{Fisher Information}
+The \emph{Fisher information} for a parameter $\theta$ is defined as $\mathcal{I}_Y(\theta)=\VV s(\theta)$
+\textbf{Remarks:}
+
+\begin{itemize}
+    \item Letting $\mathcal{J}_Y(\theta)$ denote $-\EE s'(\theta)$, we have $\mathcal{I}_Y(\theta)=\mathcal{J}_Y(\theta)$ (the information equality!) if the regularity conditions mentioned earlier hold.
+    \item You might sometimes see $\theta^*$ used instead of $\theta$ to really emphasize the fact that the entry to $\mathcal{I}_Y$ is the ``true value'' of $\theta$. 
+    \item Be wary not to confuse $\mathcal{I}_Y(\theta)$ and $\mathcal{I}_{Y_1}(\theta)$. The former is the Fisher information with respect to the entire data vector $Y=(Y_1,\dots,Y_n)$, while the latter is the Fisher information with respect to the single observation $Y_1$. 
+    \item In fact, if our random variables $Y_1,\dots,Y_n$ are i.i.d., we have $\mathcal{I}_Y(\theta)=n\mathcal{I}_{Y_1}(\theta)$.
+\end{itemize}
+
+\textbf{Fisher under Reparameterization:} Suppose that $\tau = g(\theta)$, where $g$ is injective and differentiable. Then, we have the relation $\mathcal{I}_Y(\tau)=\mathcal{I}_Y(\theta)/g'(\theta)^2$. 
+
+
+\section{Methods of Moments}
+
+\subsection{Finding MoM}
+Let $Y_1,\dots,Y_n$ be i.i.d. random variables. Recall that we can freely use the notation $$\bar{Y}=\frac{1}{n}\sum_{j=1}^n Y_j.$$ In a similar manner, for any $k$th moment, we can, without rederivation, notate $$\bar{Y}^k=\frac{1}{n}\sum_{j=1}^n Y_j^k.$$ Then, the \emph{method of moments} (MoM) estimator for some parameter $\theta$ is found by:
+\begin{enumerate}
+    \item Replacing each component of $\theta$ with a corresponding component of $\hat{\theta}$.
+    \item Replacing the first $\dim \theta$ moments $\EE Y_1^k$ from the model with $\bar{Y}^k$.
+\end{enumerate}
+Finally, one can solve for each component of $\hat{\theta}$ in terms of sample moments.
+
+\subsection{Properties of MoM}
+If $\VV Y_1^k<\infty$, $\EE \bar{Y}^k=\EE Y_1^k$ and $\VV \bar{Y}^k=\VV(Y_1^k)/n$. Moreover, by the CLT, we obtain $$\sqrt{n}(\bar{Y}^k - \EE Y_1^k)\to_\mathcal{D} \cN(0,\VV Y_1^k).$$ Note that, in general, $\EE \hat{\theta}\neq \theta$ if $\hat{\theta}$ is an MoM estimator, even though $\EE \bar{Y}^k=\EE Y_1^k$
+
+\section{Bias, Standard Error and Loss}
+
+\subsection{Bias}
+The \emph{bias} of an estimator $\hat{\theta}$ for an estimand $\theta$ is $\Bias(\hat{\theta})=\EE \hat{\theta}-\theta$. Bias describes the average difference of an estimator from the estimand, and \emph{not} the error of any particular estimate.
+
+\subsection{Standard Error}
+The \emph{standard error} of an estimator $\hat{\theta}$ is $\SE(\hat{\theta})=(\VV \hat{\theta})^{1/2}$. You might notice that this is the same as the standard deviation of $\hat{\theta}$.
+
+\subsection{Loss Function}
+A \emph{loss function} is a function $\Loss(\theta,x)\geq 0$ that is assumed to be convex in $x$ with the property that $\Loss(x,x)=0$ for all $x$. Examples of loss functions include:
+\begin{itemize}
+    \item 0-1 loss: $\Loss(\theta,x)=\mathbb{I} (\theta\neq x)$.
+    \item Absolute error loss: $\Loss(\theta,x)=|\theta-x|$.
+    \item Squared error loss: $\Loss(\theta,x)=(\theta-x)^2$.
+\end{itemize}
+
+\subsection{Mean Squared Error}
+The expectation of the squared error loss is called the \emph{mean squared error} (MSE): $$\MSE(\theta,\hat{\theta})=\EE (\theta-\hat{\theta})^2.$$
+
+\subsection{Bias-Variance Decomposition}
+The MSE can be decomposed as $$\MSE(\theta,\hat{\theta})=\Bias(\hat{\theta})^2+\VV \hat{\theta}.$$
+
+\section{Nonparametric Estimators}
+\begin{itemize}
+    \item \textit{Parametric estimators} like the MLE and the MoM, which only work when the underlying statistical model is parameterized by a finite number of parameters.
+    \item \textit{Nonparametric estimators} allow for much less structured models, and indeed, we can estimate CDFs, quantiles, and densities without appealing to the use of any parameters at all
+\end{itemize}
+
+\subsection{Empirical CDF}
+The \emph{empirical CDF} (ECDF) is the function $\hat{F}$ defining a random variable given by $$\hat{F}(y)=\frac{1}{n}\sum_{j=1}^n 1(Y_j\leq y),$$ where we assume that i.i.d. $Y_1,\dots,Y_n\sim F$ have been sampled. We observe that:
+\begin{itemize}
+    \item $\EE \hat{F}(y)=\EE 1(Y_1\leq y)=F(y)$, so the ECDF is unbiased for the CDF.
+    \item $\VV \hat{F}(y)=F(y)(1-F(y))/n$.
+    \item $\hat{F}(y)\to_\mathcal{A} F(y)$ by the SLLN.
+    \item $\sqrt{n}(\hat{F}(y)-F(y))\to_\mathcal{D} \cN(0,F(y)(1-F(y)))$ by the CLT.
+\end{itemize}
+
+\subsection{Sample Quantile}
+If $Y\sim F$, the $r$th \emph{quantile} is $Q(r)=\min\{ x\mid F(x)\geq r\}$. Then, for i.i.d. random variables $Y_1,\dots,Y_n$, one can consider the order statistics $Y_{(1)},\dots,Y_{(n)}$, when the $r$th \emph{sample quantile} is $Y_{\lceil nr \rceil}$. This is a nonparametric estimator for $Q(r)$.
+
+\subsection{Kernel Density Estimator}
+Fix some bandwidth $h$, and suppose that $Y_1,\dots,Y_n$ are i.i.d. with ECDF $\hat{F}$. Then, $$\hat{p}(y)=\frac{\mathbb{I}(Y_1\in [y-h/2,y+h/2])}{h}=\frac{\hat{F}(y+h/2)-\hat{F}(y-h/2)}{n}$$ is called the \emph{kernel density estimator} (KDE) with respect to the r.v.s $Y_1,\dots,Y_n$.
+
+\section{Asymptotics}
+
+\subsection{Convergence Equivalence}
+Fix some constant $c$, and allow $Y_1,\dots,Y_n$ to be random variables. Then, convergence in distribution implies convergence in probability.
+
+\subsection{Central Limit Theorem}
+Let $Y_1,\dots,Y_n$ be i.i.d random variables with mean $\EE Y_1 =\mu$ and finite variance $\VV Y_1=\sigma^2<\infty$. Then, the convergence $$\frac{\sqrt{n}(\bar{Y}-\mu)}{\sigma}\to_\mathcal{D} \cN(0,1)$$ holds. Equivalently, we have $\sqrt{n}(\bar{Y}-\mu)\to_\mathcal{D} \cN(0,\sigma^2)$ or $\bar{Y} \mathrel{\dot{\sim}}\cN(\mu,\sigma^2/n)$.
+
+\subsection{Law of Large Numbers}
+Let $Y_1,\dots,Y_n$ be i.i.d. random variables with finite first moments, i.e. $\EE |Y_1|<\infty$. Then, $\bar{Y}\to_\mathcal{A} \EE Y_1$ and $\bar{Y}\to_\mathcal{P} \EE Y_1$.  
+
+\subsection{Continuous Mapping Theorem}
+Let $g:\mathbb{R} \to \mathbb{R}$ be continuous on a set $A$, where $\mathbb{P}(Y\in A)=1$. Then, we discover the following:
+\begin{enumerate}
+    \item $Y_n\to_\mathcal{A} Y$ implies $g(Y_n)\to_\mathcal{A} g(Y)$.
+    \item $Y_n\to_\mathcal{P} Y$ implies $g(Y_n) \to_\mathcal{P} g(Y)$.
+    \item $Y_n\to_\mathcal{D} Y$ implies $g(Y_n)\to_\mathcal{D} g(Y)$.
+\end{enumerate}
+
+\subsection{Slutsky's Theorem}
+Suppose $X_n\to_\mathcal{D}X$ and $Y_n\to_\mathcal{D}c$, where $c$ is a constant (recall that the latter condition is equivalent to $Y_n\to_\mathcal{P}c$). Then,
+\begin{enumerate}
+    \item $X_n+Y_n\to_\mathcal{D}X+c$.
+    \item $X_nY_n\to_\mathcal{D}cX$.
+    \item For $c\neq 0$, $X_n/Y_n\to_\mathcal{D}X/c$.
+\end{enumerate}
+
+\subsection{Delta Methods}
+Suppose that $\sqrt{n}(\hat{\theta}-\theta)\to_\mathcal{D}\cN(0,\omega^2)$, and let $g$ be a function that is continuously differentiable in a neighborhood of $\theta$. Then, $$\sqrt{n}(g(\hat{\theta})-g(\theta))\to_\mathcal{D}\cN(0,g'(\theta)^2\omega^2).$$
+
+
+\subsection{Kullback-Leibler Divergence}
+The \emph{Kullback-Leibler divergence} (also called the KL divergence or relative entropy) from a distribution defined by $p$ to a distribution defined by $q$ (densities) is $$D(p,q)=\EE \log \frac{p(Y)}{q(Y)}=\int_{-\infty}^\infty p(y)\log \frac{p(y)}{q(y)}\ dy,$$ where we suppose that $Y\sim p$.
+
+\subsection{Consistency of Estimators}
+
+An estimator $\hat{\theta}$ is said to be \emph{consistent} for the estimand $\theta$ if the convergence $$\hat{\theta}\to_\mathcal{P}\theta$$ holds; that is, if $\hat{\theta}$ converges in probability to the true value of the estimand.
+
+\textbf{Proving Consistency}
+ To show that some $\hat{\theta}$ is consistent for a corresponding $\theta$: 
+\begin{enumerate}
+    \item Show that $\MSE(\hat{\theta},\theta)\to 0$.
+    \item Recognize that $\theta=\EE Y_1$ and $\hat{\theta}=\bar{Y}$ for some i.i.d. $Y_1,\dots,Y_n$, when $\hat{\theta}\to_\mathcal{P}\theta$ follows immediately from the WLLN.
+    \item Recognize that $\theta=g(\EE Y_1)$ and $\hat{\theta}=g(\bar{Y})$ for some continuous function $g$ and i.i.d. $Y_1,\dots,Y_n$, when $\hat{\theta}\to_\mathcal{P}\theta$ follows from the WLLN and CMT.
+    \item Fix some $\epsilon>0$, and show that $\PP(|\hat{\theta}-\theta|>\epsilon)\to 0$ directly.
+\end{enumerate}
+
+\subsection{Cramer Rao Lowe Bound}
+
+\textbf{CRLB for Unbiased Estimators}
+Under the regularity conditions mentioned at the start, if $\hat{\theta}$ is unbiased for $\theta$, $$\VV \hat{\theta}\geq \frac{1}{\mathcal{I}_Y(\theta)}.$$ 
+
+\textbf{CRLB in the General Case}
+If we make no assumptions about the bias of $\hat{\theta}$ for $\theta$, we instead obtain the bound $$\VV \hat{\theta}\geq \frac{g'(\theta)^2}{\mathcal{I}_Y(\theta)},$$ where $g(\theta)=\EE \hat{\theta}$. In the zero bias case, it was the case that $g(\theta)=\theta$, so $g'(\theta)=1$.
+
+\subsection{Rao-Blackwellization}
+
+Let $T$ be a sufficient statistic and $\hat{\theta}$ be any estimator (in both cases with respect to the estimand $\theta$). Then, setting $$\hat{\theta}_{RB}=\EE (\hat{\theta}\mid T),$$ it is the case that the inequality of MSEs given by $\MSE(\hat{\theta}_{RB},\theta)\leq \MSE(\hat{\theta},\theta)$ holds.
+
+\textbf{Remarks}
+\begin{itemize}
+    \item To Rao-Blackwellize an estimator, one must condition on sufficient statistics for the theorem to hold. The theorem fails for arbitrary statistics.
+    \item A Rao-Blackwellized estimator will have the same bias but may have an improved (smaller variance). This follows from Adam's law and Eve's law.
+    \item Rao-Blackwellization will not change an estimator if it was already a function of the sufficient statistic $T$ in the first place. This follows directly from the ``taking out what's known'' property of conditional expectation.
+    \item In particular, Rao-Blackwellization will not improve the MLE because the MLE is always a function of the sufficient statistics as we've seen above.
+    \item To find the Rao-Blackwell estimator, you usually need to determine conditional distributions of the form $Y\mid T$. In Statistics 111, this is usually done by citing a Statistics 110 story, so do make a relevant list of those!
+\end{itemize}
+
+
+\section{Interval Estimation}
+\subsection{Confidence Interval}
+An interval estimator with a coverage probability at least $1-\alpha$ for all possible values of $\theta$ is called a $100(1-\alpha)\%$ \emph{confidence interval} (CI). We say that $1-\alpha$ is the \emph{level} of our CI, and that $(U(Y)-L(Y))/2$ is the \emph{margin of error} of our CI.
+
+\subsection{Exact CIs}
+
+A \emph{pivot} is a random variable that is free of any parameters (e.g. $\cN(0,1)$, $\Unif(6,9)$). Suppose we want to build a $95\%$ CI for $\theta$, where we observe $Y\sim \cN(\theta,\sigma^2)$, where $\sigma^2$ is known, say equal to 4, the strategy is as follow:
+
+\begin{enumerate}
+    \item Do some algebraic manipulation to get a pivot. In our example, we get $$\frac{Y-\theta}{\sigma}\sim \cN(0,1).$$
+    \item Find the values of the quantile function of the pivot evaluated at 0.025 and 0.975. In our example, $Q_{\cN(0,1)}(0.025)\approx -1.96$ and $Q_{\cN(0,1)}(0.975)\approx 1.96$.
+    \item With these values, rest assured that a $95\%$ CI will surface from the inequality you get when you set the 0.025 quantile value as the lower bound and the 0.975 quantile as the upper bound. In our example, a $95\%$ CI starts from $$Q_{\cN(0,1)}(0.025)\leq \frac{y-\theta}{\sigma}\leq Q_{\cN(0,1)}(0.975),$$ where $y$ is the observed value (in an experiment) of the random variable $Y$.
+    \item Rearrange this inequality to get just the parameter of interest in the middle. In our example, some rearrangement yields the following inequality: $$y-Q_{\cN(0,1)}(0.975)\sigma\leq \theta\leq y-Q_{\cN(0,1)}(0.025)\sigma.$$
+    \item Plug in all the values you know and assert that a $95\%$ CI has been found! In our example, suppose we observe $y=1$. Plugging in known values, $$1-(1.96)(2)\leq \theta \leq 1+(1.96)(2),$$ so we can conclude that a $95\%$ CI for $\theta$ is given by $[-2.92,4.92]$. 
+\end{enumerate}
+
+\subsection*{Asymptotic CIs}
+Sometimes, finding a suitable pivot is hard. In these cases, we appeal to the CLT, which \emph{always} allows us to find an asymptotic $\cN(0,1)$ pivot. When this pivot is not nice enough, we can further improve it by using the delta method, the CMT, or Slutsky's theorem. With this, we can construct a CI as we did before, with the caveat that the resulting interval is not exact for finite $n$.
+
+\textbf{A useful shortcut}
+Finally, we look at the asymptotic $95\%$ CI that you will end up using $95\%$ of the time. For i.i.d. $Y_1,\dots,Y_n\sim [\theta,\sigma^2]$, with $\sigma^2$ known, we have $$\sqrt{n}(\bar{Y}-\theta)\to_\mathcal{D}\cN(0,\sigma^2)$$ by the CLT. Then, an asymptotic $95\%$ CI for $\theta$ (which you can just quote) is $$\brac{\bar{y}-\frac{1.96\sigma}{\sqrt{n}},\bar{y}+\frac{1.96\sigma}{\sqrt{n}}},$$ where $\bar{y}$ is just the crystallized version of the sample mean random variable $\bar{Y}$.
+
+\newpage
+\section{Sufficiency and Factorization}
+
+\subsection{Sufficient Statistics}
+Let $Y=(Y_1,\dots,Y_n)$ be a sample from some model. A statistic $T(Y)$ is \emph{sufficient} for $\theta$ if the conditional distribution of $Y\mid T$ does not depend on $\theta$.
+
+\subsection{Factorization Criterion}
+The statistic $T(Y)$ is sufficient if and only if we can factor the joint density of $Y$ as $p(y\mid \theta)=g(T(y),\theta)h(y)$.  
+\subsection{Sufficiency of Order Statistics}
+Let $p$ be \emph{any} density parameterized by some scalar $\theta$. Then, if $Y_1,\dots,Y_n$ are i.i.d. with density $p$, it is the case that $(Y_{(1)},\dots,Y_{(n)})$ is sufficient for $\theta$. After all, $$L(\theta)\propto \prod_{j=1}^n p(y_j)=\prod_{j=1}^n p(y_{(j)}).$$
+
+\section{Exponential Families}
+
+\subsection{Natural Exponential Families}
+A random variable $Y$ follows a \emph{natural exponential family} (NEF) if one can write $$p(y\mid \theta)=e^{\theta y-\Psi(\theta)}h(y).$$ We call $\theta$ the natural (canonical) parameter and note that $\Psi(\theta)$ is the cumulant generating function of $Y$ (the logarithm of the MGF of $Y$).
+
+\subsection{Properties of NEFs}
+Let $Y$ be NEF with the canonical form defined above. Then, we can deduce that 
+\begin{itemize}
+    \item $\EE Y=\Psi'(\theta)$, $\VV Y=\Psi''(\theta)$, and the MGF $M_Y(t)=e^{\Psi(\theta+t)-\Psi(\theta)}$.
+    \item If $Y_1,\dots,Y_n\sim Y$ are i.i.d., $\bar{Y}$ is a sufficient statistic for $\theta$.
+    \item The MLE of $\mu=\EE Y$ is $\hat{\mu}=\bar{Y}$.
+    \item The Fisher information is $\mathcal{I}_Y(\theta)=\Psi''(\theta)$.
+    \item We call the process where we fix $h(y)$ as a baseline distribution from which we construct the entire NEF \emph{exponential tilting}.
+    \item Some examples of NEFs include the Normal (with $\sigma^2$ known), the Poisson, the Binomial (with $n$ fixed), the Negative Binomial (with $r$ fixed), and last, but not least, the Gamma (with $a$ known).
+\end{itemize}
+
+\subsection{Exponential Families}
+A random variable $Y$ follows an \emph{exponential family} (EF) if one can write $$p(y\mid \theta)=e^{\theta T(y)-\Psi(\theta)}h(y).$$ Some examples of EFs include the Weibull, the Normal (but now with $\mu$ known and $\sigma^2$ unknown), and the Normal (with both $\mu$ and $\sigma^2$ unknown). And to prove that a distribution follows a NEF or an EF, you need to manipulate a given density and pattern match to a general functional form (as when you find sufficient statistics).
+\section{Mathematical Tools}
+\subsection{Taylor Approximation}
+ \textit{First order Taylor expansion} gives a linear approximation of a function $g$ near some point $x_0$ as
+$$
+g(x) \approx g\left(x_0\right)+\frac{\partial g\left(x_0\right)}{\partial x}\left(x-x_0\right) .
+$$
+For a fixed $x_0$, the Taylor expansion is linear in $x$. This approximation should be reasonably accurate when $x$ is close to $x_0$.
+
+\subsection{Differentiation under the internal sign}
+For any function $f$, by DuThIS, we have that $$\frac{d}{dx} \int_{a}^b f(x,t) dt = \int_a^b \frac{d}{dx} f(x,t) dt$$
+
+\subsection{Sum of Squares Identity}
+Now, let's talk about some additional notation that might pop up here and there. Let $Y_1,\cdots,Y_n$ be random variables. The \emph{sample mean}, $\bar{Y}$, is the random variable $$\bar{Y}=\frac{1}{n}\sum_{j=1}^n Y_j.$$ On the other hand, the \emph{sample variance}, $S^2$, is the random variable given by $$S^2=\frac{1}{n-1}\sum_{j=1}^n (Y_j-\bar{Y})^2.$$ When $Y_1,\dots,Y_n$ crystallize into the numbers $y_1,\dots,y_n$, we can analogously define $$\bar{y}=\frac{1}{n}\sum_{j=1}^n y_j,\ \ s^2=\frac{1}{n-1}\sum_{j=1}^n (y_j-\bar{y})^2.$$ You are encouraged to use the expressions $\bar{Y}$ and $S^2$, along with their crystallized analogues $\bar{y}$ and $s^2$, freely without having to rederive them! Now, we obtain $$\sum_{j=1}^n (Y_j-c)^2=(n-1)S^2+n(\bar{Y}-c)^2$$ for all $c\in \mathbb{R}$! This turns out to be a really important identity that appears all the time in statistics e.g. when deriving the posterior when the prior is Uniform on $(\mu,\log \sigma)$ and the data is Normal.
+
+\section{Important Examples}
+
+\subsection{MLE and MoM for Normal Model}
+
+\textbf{Normal with known variance}
+Let $Y_1, \cdots, Y_n$ be iid $N(\mu, \sigma^2)$ with $\theta=\mu$ unknown but $\sigma^2$ is known. The likelihood function, dropping normalizing constant is
+$$L(\mu;y) =\exp \left\{-\frac{1}{2\sigma^2}\sum_{j=1}^n (y_j-\mu)^2 \right\}$$
+and the log-likelihood is $$\ell(\mu;\textbf{y}) = -\frac{1}{2\sigma^2}\sum_{i=1}^n (y_j-\mu)^2= -\frac{1}{2\sigma^2} \left\{\sum_{j=1}^n (y_j-\bar{y})^2+n(\bar{y}-\mu)^2 \right\}$$
+
+It is easy to maximize $\ell(\mu;\textbf{y})$, just set $\mu=\bar{y}$, and we observe that $$\hat{\mu}\sim N \left(\mu,\frac{\sigma^2}{n}\right)$$
+and so $\hat{\mu}$ is unbias with standard error $$\text{SE}(\hat{\mu})=\frac{\sigma}{\sqrt{n}}$$
+
+\textbf{Nomral with both parameters unknown}Let $Y_1, \cdots, Y_n$ be iid $N(\mu, \sigma^2)$ with both parameters unknown. We will parameterize the model in terms of the mean and standard deviation, $\theta=(\mu,\sigma)$ instead of $(\mu,\sigma^2)$. Then, we observe that $$L(\mu,\sigma;\textbf{y}) =\frac{1}{\sigma^n} \exp \left\{-\frac{1}{2\sigma^2} \sum_{j=1}^n (y_j-\mu)^2 \right\}$$
+and that the log likeligood is $$\ell(\mu,\sigma;\textbf{y}) = -\frac{1}{2\sigma^2} \left\{ \sum_{j=1}^n (y_j-\bar{y})^2 + n(\bar{y}-\mu)^2\right\} -n\log \sigma$$
+
+By multivariate calculus derivation (which we will skip here), we have the MLE as $$\hat{\mu}=\bar{Y}, \hat{\sigma}=\frac{1}{n}\sum_{j=1}^n (Y_j-\bar{Y})^2$$
+
+\subsection{German Tank Problem}
+
+Allies capture $n$ tanks from the Germans, estimate the number of tanks. Observe serial \#'s $y_1, \cdots, y_n$, $n$ tanks caputred all equally likely out of $t$ total tanks.
+
+Let's assume simple random sampling, then we have that $$L(t) = \begin{cases}
+\frac{1}{{t \choose n}}, \text{for } y_1, \cdots, y_m \in \{1, \cdots, t\}\\
+0, \text{otherwise}
+\end{cases}$$
+
+In fact, we observe that $$L(t)= \frac{1}{{t \choose n}} I(t \geq \max(y_1, \cdots, y_n))$$
+
+Hence our likelihood is monotone decreasing, and MLE, $\hat{t}=y_{(n)}$. Observe that the support depends on $t$(our parameters), which violates the regularity conditions, which means we cannot use MLE properties.
+
+Thus, we will consider the PMF of $\hat{t}=Y_{(n)}$, which is $$P(Y_{(n)}=m)=\frac{{m-1\choose n-1}}{{t\choose n}} \text{for} m=n, n+1, \cdots, t$$
+Then, $$E[Y_{(n)}] = \frac{1}{{t\choose n}} \sum_{m=n}^t m{m-1\choose n-1} = \frac{n}{n+1}(t+1)$$
+
+by Feynman Restaurant problem in STAT 110 4.92 (pg 210) where we observe $$E\left(\frac{n+1}{n}Y_{(n)}\right) = t+1 \implies E\left(\frac{n+1}{n} Y_{(n)}-1\right) = t$$
+\subsection{Pivot based on Student-\emph{t} distribution}
+
+Let the data be i.i.d $Y_1, \cdots, Y_n \sim N(\mu, \sigma^2)$ with both parameters unknown. Suppose that we want a $1-\alpha$ CI for $\mu$. Since $\sigma$ is unknown, we can replace $\sigma$ by the standard deviation $\hat{\sigma}$, but then we can only have an approximate CI. Instead, let us constrcut a pivot, the \emph{t-statistics} $$T=\frac{\bar{Y}-\mu}{\hat{\sigma}/\sqrt{n}} = \frac{\bar{Y}-\mu}{\sigma/\sqrt{n}} \times \frac{\sigma}{\hat{\sigma}}$$
+
+\end{multicols*}
+
+\section{Table of Distributions} 
+
+
+\begin{center}
+\renewcommand{\arraystretch}{3.7}
+\begin{tabular}{cccccc}
+\textbf{Distribution} & \textbf{PMF/PDF and Support} & \textbf{Expected Value}  & \textbf{Variance} & \textbf{MGF}\\
+\hline 
+\shortstack{Bernoulli \\ \Bern($p$)} & \shortstack{$P(X=1) = p$ \\$ P(X=0) = q=1-p$} & $p$ & $pq$ & $q + pe^t$ \\
+\hline
+\shortstack{Binomial \\ \Bin($n, p$)} & \shortstack{$P(X=k) = {n \choose k}p^k q^{n-k}$  \\ $k \in \{0, 1, 2, \dots n\}$}& $np$ & $npq$ & $(q + pe^t)^n$ \\
+\hline
+\shortstack{Geometric \\ \Geom($p$)} & \shortstack{$P(X=k) = q^kp$  \\ $k \in \{$0, 1, 2, \dots $\}$}& $q/p$ & $q/p^2$ & $\frac{p}{1-qe^t}, \, qe^t < 1$\\
+\hline
+\shortstack{Negative Binomial \\ \NBin($r, p$)} & \shortstack{$P(X=n) = {r + n - 1 \choose r -1}p^rq^n$ \\ $n \in \{$0, 1, 2, \dots $\}$} & $rq/p$ & $rq/p^2$ &  $(\frac{p}{1-qe^t})^r, \, qe^t < 1$\\
+\hline
+\shortstack{Hypergeometric \\ \Hypergeometric($w, b, n$)} & \shortstack{$P(X=k) = \sfrac{{w \choose k}{b \choose n-k}}{{w + b \choose n}}$ \\ $k \in \{0, 1, 2, \dots,  n\}$} & $\mu = \frac{nw}{b+w}$ &$\left(\frac{w+b-n}{w+b-1} \right) n\frac{\mu}{n}(1 - \frac{\mu}{n})$& messy  \\
+\hline
+\shortstack{Poisson \\ \Pois($\lambda$)} & \shortstack{$P(X=k) = \frac{e^{-\lambda}\lambda^k}{k!}$ \\ $k \in \{$0, 1, 2, \dots $\}$} & $\lambda$ & $\lambda$ & $e^{\lambda(e^t-1)}$ \\
+\hline
+\hline
+\shortstack{Uniform \\ \Unif($a, b$)} & \shortstack{$ f(x) = \frac{1}{b-a}$ \\$ x \in (a, b) $} & $\frac{a+b}{2}$ & $\frac{(b-a)^2}{12}$ &  $\frac{e^{tb}-e^{ta}}{t(b-a)}$\\
+\hline
+\shortstack{Normal \\ $\N(\mu, \sigma^2)$} & \shortstack{$f(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\sfrac{(x - \mu)^2}{(2 \sigma^2)}}$ \\ $x \in (-\infty, \infty)$} & $\mu$  & $\sigma^2$ & $e^{t\mu + \frac{\sigma^2t^2}{2}}$\\
+\hline
+\shortstack{Exponential \\ $\Expo(\lambda)$} & \shortstack{$f(x) = \lambda e^{-\lambda x}$\\$ x \in (0, \infty)$} & $\frac{1}{\lambda}$  & $\frac{1}{\lambda^2}$ & $\frac{\lambda}{\lambda - t}, \, t < \lambda$\\
+\hline
+\shortstack{Gamma \\ $\Gam(a, \lambda)$} & \shortstack{$f(x) = \frac{1}{\Gamma(a)}(\lambda x)^ae^{-\lambda x}\frac{1}{x}$\\$ x \in (0, \infty)$} & $\frac{a}{\lambda}$  & $\frac{a}{\lambda^2}$ & $\left(\frac{\lambda}{\lambda - t}\right)^a, \, t < \lambda$\\
+\hline
+\shortstack{Beta \\ \Beta($a, b$)} & \shortstack{$f(x) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}x^{a-1}(1-x)^{b-1}$\\$x \in (0, 1) $} & $\mu = \frac{a}{a + b}$  & $\frac{\mu(1-\mu)}{(a + b + 1)}$ & messy \\
+\hline
+\shortstack{Log-Normal \\ $\mathcal{LN}(\mu,\sigma^2)$} & \shortstack{$\frac{1}{x\sigma \sqrt{2\pi}}e^{-(\log x - \mu)^2/(2\sigma^2)}$\\$x \in (0, \infty)$} & $\theta = e^{ \mu + \sigma^2/2}$ & $\theta^2 (e^{\sigma^2} - 1)$ & doesn't exist\\
+\hline
+\shortstack{Chi-Square \\ $\chi_n^2$} & \shortstack{$\frac{1}{2^{n/2}\Gamma(n/2)}x^{n/2 - 1}e^{-x/2}$\\$x \in (0, \infty) $} & $n$  & $2n$ & $(1 - 2t)^{-n/2}, \, t < 1/2$\\
+\hline
+\shortstack{Student-$t$ \\ $t_n$} & \shortstack{$\frac{\Gamma((n+1)/2)}{\sqrt{n\pi} \Gamma(n/2)} (1+x^2/n)^{-(n+1)/2}$\\$x \in (-\infty, \infty)$} & $0$ if $n>1$ & $\frac{n}{n-2}$ if $n>2$ & doesn't exist\\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}
